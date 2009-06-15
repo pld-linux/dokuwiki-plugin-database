@@ -1,0 +1,11 @@
+--- database/database.php~	2009-06-15 23:41:08.333704028 +0300
++++ database/database.php	2009-06-15 18:41:02.882170154 +0300
+@@ -215,7 +215,7 @@
+ // The images oflder
+         $this->imagesFolder=DOKU_BASE.'lib/plugins/'.$dbName.'/images/';
+ // The base folder
+-        $this->baseFolder = DOKU_INC.'data/pages/'.$dbName.'/';
++        $this->baseFolder = DOKU_DATA.'pages/'.$dbName.'/';
+         $this->URL = DOKU_URL.'doku.php?idx='.$dbName;
+ // Begin add v1.0.4
+ // Check if dictionary folder exists
