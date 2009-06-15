@@ -3,15 +3,16 @@ Summary:	Design your own database and manage the data within the wiki
 Summary(pl.UTF-8):	Wtyczka database dla DokuWiki
 Name:		dokuwiki-plugin-%{plugin}
 Version:	1.0.4
-Release:	0.1
+Release:	0.3
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.langhamassociates.com/media/database.tgz
 # Source0-md5:	14ae5bb2f6c40a525220a815611892ee
+Patch0:		datadir.patch
 URL:		http://wiki.splitbrain.org/plugin:database
 BuildRequires:	rpmbuild(macros) >= 1.520
 BuildRequires:	sed >= 4.0
-Requires:	dokuwiki >= 20061106
+Requires:	dokuwiki >= 20090214b-2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -35,9 +36,11 @@ country is only held once in one table and other tables refer to it...
 
 %prep
 %setup -q -cn %{plugin}
-%{__sed} -i -e 's,\r$,,' lib/plugins/%{plugin}/*.php
+mv lib/plugins/%{plugin}/* .
+%{__sed} -i -e 's,\r$,,' *.php
+%patch0 -p1
 
-version=$(awk -Fv '$0 == " * v%{version}"{print $2}' lib/plugins/%{plugin}/action.php)
+version=$(awk -Fv '$0 == " * v%{version}"{print $2}' action.php)
 if [ "$version" != %{version} ]; then
 	: %%{version} mismatch
 	exit 1
@@ -46,7 +49,7 @@ fi
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{plugindir}
-cp -a lib/plugins/%{plugin}/* $RPM_BUILD_ROOT%{plugindir}
+cp -a . $RPM_BUILD_ROOT%{plugindir}
 rm -f $RPM_BUILD_ROOT%{plugindir}/{CREDITS,changelog}
 rm -f $RPM_BUILD_ROOT%{plugindir}/{COPYING,README,VERSION}
 
