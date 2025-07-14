@@ -38,7 +38,7 @@ country is only held once in one table and other tables refer to it...
 %setup -q -cn %{plugin}
 mv lib/plugins/%{plugin}/* .
 %{__sed} -i -e 's,\r$,,' *.php
-%patch0 -p1
+%patch -P0 -p1
 
 version=$(awk -Fv '$0 == " * v%{version}"{print $2}' action.php)
 if [ "$version" != %{version} ]; then
